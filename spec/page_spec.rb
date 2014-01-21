@@ -66,7 +66,15 @@ describe SitePrism::Page do
       set_url_matcher /bob/
     end
     page = PageToSetUrlMatcherAgainst.new
-    page.url_matcher.should == /bob/
+    expect(page.url_matcher).to eq /bob/
+  end
+
+  it "should support wildcards as url matchers" do
+    class PageToSetUrlMatcherAgainst < SitePrism::Page
+      set_url_matcher "*bob*"
+    end
+    page = PageToSetUrlMatcherAgainst.new
+    expect(page.url_matcher).to eq /^.*bob.*$/i
   end
 
   it "should raise an exception if displayed? is called before the matcher has been set" do

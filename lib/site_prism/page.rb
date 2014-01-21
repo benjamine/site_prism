@@ -26,6 +26,11 @@ module SitePrism
     end
 
     def self.set_url_matcher page_url_matcher
+      if page_url_matcher.is_a?(String)
+        # support strings with wildcards
+        page_url_matcher = page_url_matcher.gsub('*','.*')
+        page_url_matcher = Regexp.new "^#{page_url_matcher}$", Regexp::IGNORECASE
+      end
       @url_matcher = page_url_matcher
     end
 
